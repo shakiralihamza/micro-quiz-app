@@ -1,6 +1,6 @@
 import Button from '@mui/material/Button';
 import {styled} from '@mui/material/styles';
-import {Box, Stack} from "@mui/material";
+import {Box, Stack, Typography} from "@mui/material";
 import React, {useContext} from "react";
 import {MyContext} from "../Context/MyContext";
 
@@ -39,7 +39,9 @@ const MainButton: React.FC<Props> = ({icon, text}) => {
                 <Box sx={{height: 22}}>
                     {icon}
                 </Box>
-                {text}
+                <Typography>
+                    {text}
+                </Typography>
             </Stack>
         </TheButton>
     );
