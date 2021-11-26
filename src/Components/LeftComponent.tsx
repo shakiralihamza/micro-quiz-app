@@ -2,6 +2,9 @@ import {Grid, Stack} from '@mui/material';
 import React from 'react';
 import SettingsIcon from '@mui/icons-material/Settings';
 import MainButton from "./MainButton";
+import QuizIcon from '@mui/icons-material/Quiz';
+// noinspection ES6PreferShortImport
+import { Menu } from '../react-app-env.d';
 
 function LeftComponent() {
     return (
@@ -17,7 +20,8 @@ function LeftComponent() {
                     direction={'column'}
                     sx={{width: '100%', height: '100%'}}
                 >
-                   <MainButton icon={<SettingsIcon fontSize={'small'}/>} text={'Settings'}/>
+                   <MainButton icon={<SettingsIcon fontSize={'small'}/>} text={Menu.Settings}/>
+                   <MainButton icon={<QuizIcon fontSize={'small'}/>} text={Menu.Quiz}/>
                 </Stack>
             </Grid>
         </Grid>
