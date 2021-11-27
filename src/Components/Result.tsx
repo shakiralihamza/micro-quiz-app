@@ -15,7 +15,7 @@ function Result() {
                         ?
                         <>No result to show, please finish a quiz first.</>
                         :
-                        <>Result: {result}</>
+                        <>Finished Quiz's Score: {result}</>
                 }
             </Typography>
         </Box>
