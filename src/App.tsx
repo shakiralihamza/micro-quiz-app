@@ -1,6 +1,6 @@
-import React, {Suspense, useState} from 'react';
+import React, {Suspense, useEffect, useState} from 'react';
 import LeftComponent from "./Components/LeftComponent";
-import {Grid, ThemeProvider} from "@mui/material";
+import {CircularProgress, Grid, ThemeProvider} from "@mui/material";
 import {MyContext} from "./Context/MyContext";
 // noinspection ES6PreferShortImport
 import {Difficulty, Menu} from './react-app-env.d';
@@ -93,7 +93,7 @@ type Question = {
     incorrect_answers: string[]
     allAnswers?: string[]
 }
-type Questions = Question[]
+type Questions = Question[] | null
 
 interface ContextType {
     menu: string
@@ -138,27 +138,38 @@ interface MainAppPros {
 
 const MainApp: React.FC<MainAppPros> = ({resource, difficulty, setDifficulty, NoOfQuestions, setNoOfQuestions}) => {
     const data: Questions = resource.read().results;
-
-    let allAnswersObj: any = [];
-    for (let i = 0; i < data.length; i++) {
-        let allAnswers: string[];
-        allAnswers = data[i].incorrect_answers.map((answer: string) => answer);
-        allAnswers.push(data[i].correct_answer);
-        allAnswers = shuffle(allAnswers);
-        allAnswersObj.push(allAnswers);
-    }
-    const newQuestions: Questions = data.map((question: Question, index: number) => {
-        return {...question, 'allAnswers': allAnswersObj[index]}
-    });
-
+    const [questions, setQuestions] = useState<Questions>(null);
     const [menu, setMenu] = useState<string>(Menu.Quiz);
-    const [questions, setQuestions] = useState<Questions>(newQuestions);
     const [result, setResult] = useState<number | null>(null);
     const [currentSelectedAnswer, setCurrentSelectedAnswer] = useState<string | null>(null);
     const [activeStep, setActiveStep] = React.useState<number>(0);
     const [score, setScore] = useState<number>(0);
     const [quizStarted, setQuizStarted] = useState<boolean>(false);
 
+    let allAnswersObj: any = [];
+    let newQuestions: Questions;
+    if (data !== null) {
+        for (let i = 0; i < data.length; i++) {
+            let allAnswers: string[];
+            allAnswers = data[i].incorrect_answers.map((answer: string) => answer);
+            allAnswers.push(data[i].correct_answer);
+            allAnswers = shuffle(allAnswers);
+            allAnswersObj.push(allAnswers);
+        }
+        newQuestions = data.map((question: Question, index: number) => {
+            return {...question, 'allAnswers': allAnswersObj[index]}
+        });
+    }
+
+    useEffect(()=>{
+        setQuestions(newQuestions)
+        setResult(null);
+        setActiveStep(0);
+        setCurrentSelectedAnswer(null);
+        setScore(0);
+        setQuizStarted(false);
+        // eslint-disable-next-line
+    }, [NoOfQuestions, difficulty])
 
     const ContextValues: ContextType = {
         menu,
@@ -199,7 +210,7 @@ const MainApp: React.FC<MainAppPros> = ({resource, difficulty, setDifficulty, No
                     <LeftComponent/>
                 </Grid>
                 <Grid item xs>
-                    <RightComponent resource={resource}/>
+                    <RightComponent/>
                 </Grid>
             </Grid>
         </MyContext.Provider>
@@ -211,13 +222,18 @@ function App() {
     const [NoOfQuestions, setNoOfQuestions] = React.useState<number>(5);
     const [difficulty, setDifficulty] = useState<string>(Difficulty.Easy)
 
-
     const resource = createResource(NoOfQuestions, difficulty);
 
-
+    const linearPreloader = () => (
+        <Grid container sx={{width: '100%', height: '100vh'}} alignItems={'center'} justifyContent={'center'}>
+            <Grid item>
+                <CircularProgress/>
+            </Grid>
+        </Grid>
+    );
     return (
         <ThemeProvider theme={theme}>
-            <Suspense fallback={'loading'}>
+            <Suspense fallback={linearPreloader()}>
                 <MainApp
                     resource={resource}
                     NoOfQuestions={NoOfQuestions}
