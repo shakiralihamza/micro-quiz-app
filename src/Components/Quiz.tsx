@@ -95,8 +95,8 @@ function Quiz() {
                 />
             </Box>
             <Grid container justifyContent={'center'} alignContent={'center'}>
-                <Grid item xs={'auto'} mt={5} mb={5}>
-                    <Typography variant={'h5'}>{question_title}</Typography>
+                <Grid item xs={8} mt={5} mb={5}>
+                    <Typography textAlign={'center'} variant={'h5'} dangerouslySetInnerHTML={{__html: question_title}}/>
                 </Grid>
                 <Grid xs={12}/>
                 {
@@ -126,7 +126,7 @@ function Quiz() {
                                         }
                                     }}
                                 >
-                                    <Typography sx={{fontWeight: '500'}}>{answer}</Typography>
+                                    <Typography dangerouslySetInnerHTML={{__html: answer}} sx={{fontWeight: '500'}}/>
                                 </Paper>
                             </Grid>
                             {

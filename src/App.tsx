@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {Suspense, useState} from 'react';
 import LeftComponent from "./Components/LeftComponent";
 import {Grid, ThemeProvider} from "@mui/material";
 import {MyContext} from "./Context/MyContext";
@@ -6,6 +6,7 @@ import {MyContext} from "./Context/MyContext";
 import {Difficulty, Menu} from './react-app-env.d';
 import RightComponent from "./Components/RightComponent";
 import {createTheme} from '@mui/material/styles';
+import createResource from "./resource";
 
 const theme = createTheme({
     palette: {
@@ -18,6 +19,7 @@ const theme = createTheme({
     },
 });
 
+/*
 const DummyQuestions: Questions = [
     {
         "category": "General Knowledge",
@@ -80,7 +82,7 @@ const DummyQuestions: Questions = [
         ]
     }
 ];
-
+*/
 
 type Question = {
     category: string
@@ -114,7 +116,6 @@ interface ContextType {
     setQuizStarted: (quizStarted: boolean) => void
 }
 
-
 //shuffle the answers in the array:
 function shuffle(array: string[]): string[] {
     let currentIndex = array.length, randomIndex;
@@ -127,28 +128,37 @@ function shuffle(array: string[]): string[] {
     return array;
 }
 
-function App() {
+interface MainAppPros {
+    resource: any
+    NoOfQuestions: number
+    difficulty: string
+    setNoOfQuestions: (NoOfQuestions: number) => void
+    setDifficulty: (difficulty: string) => void
+}
+
+const MainApp: React.FC<MainAppPros> = ({resource, difficulty, setDifficulty, NoOfQuestions, setNoOfQuestions}) => {
+    const data: Questions = resource.read().results;
+
     let allAnswersObj: any = [];
-    for (let i = 0; i < DummyQuestions.length; i++) {
+    for (let i = 0; i < data.length; i++) {
         let allAnswers: string[];
-        allAnswers = DummyQuestions[i].incorrect_answers.map((answer: string) => answer);
-        allAnswers.push(DummyQuestions[i].correct_answer);
+        allAnswers = data[i].incorrect_answers.map((answer: string) => answer);
+        allAnswers.push(data[i].correct_answer);
         allAnswers = shuffle(allAnswers);
         allAnswersObj.push(allAnswers);
     }
-    const newQuestions: Questions = DummyQuestions.map((question: Question, index: number) => {
+    const newQuestions: Questions = data.map((question: Question, index: number) => {
         return {...question, 'allAnswers': allAnswersObj[index]}
     });
 
     const [menu, setMenu] = useState<string>(Menu.Quiz);
-    const [difficulty, setDifficulty] = useState<string>(Difficulty.Easy)
-    const [NoOfQuestions, setNoOfQuestions] = React.useState<number>(5);
     const [questions, setQuestions] = useState<Questions>(newQuestions);
     const [result, setResult] = useState<number | null>(null);
     const [currentSelectedAnswer, setCurrentSelectedAnswer] = useState<string | null>(null);
     const [activeStep, setActiveStep] = React.useState<number>(0);
     const [score, setScore] = useState<number>(0);
     const [quizStarted, setQuizStarted] = useState<boolean>(false);
+
 
     const ContextValues: ContextType = {
         menu,
@@ -181,20 +191,42 @@ function App() {
 
     return (
         <MyContext.Provider value={ContextValues}>
-            <ThemeProvider theme={theme}>
-                <Grid container sx={{height: '100vh'}}>
-                    <Grid item sx={{
-                        backgroundImage: 'linear-gradient(to bottom, #4203d5, #5e02a9)',
-                        width: '130px'
-                    }}>
-                        <LeftComponent/>
-                    </Grid>
-                    <Grid item xs>
-                        <RightComponent/>
-                    </Grid>
+            <Grid container sx={{height: '100vh'}}>
+                <Grid item sx={{
+                    backgroundImage: 'linear-gradient(to bottom, #4203d5, #5e02a9)',
+                    width: '130px'
+                }}>
+                    <LeftComponent/>
                 </Grid>
-            </ThemeProvider>
+                <Grid item xs>
+                    <RightComponent resource={resource}/>
+                </Grid>
+            </Grid>
         </MyContext.Provider>
+
+    );
+}
+
+function App() {
+    const [NoOfQuestions, setNoOfQuestions] = React.useState<number>(5);
+    const [difficulty, setDifficulty] = useState<string>(Difficulty.Easy)
+
+
+    const resource = createResource(NoOfQuestions, difficulty);
+
+
+    return (
+        <ThemeProvider theme={theme}>
+            <Suspense fallback={'loading'}>
+                <MainApp
+                    resource={resource}
+                    NoOfQuestions={NoOfQuestions}
+                    setDifficulty={setDifficulty}
+                    setNoOfQuestions={setNoOfQuestions}
+                    difficulty={difficulty}
+                />
+            </Suspense>
+        </ThemeProvider>
     );
 }
 

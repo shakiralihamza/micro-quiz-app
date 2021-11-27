@@ -6,8 +6,9 @@ import {Menu} from "../react-app-env.d";
 import Quiz from './Quiz';
 import Result from './Result';
 
-function RightComponent() {
+const RightComponent = () => {
     const {menu} = useContext(MyContext);
+
     return (
         <>
             {
