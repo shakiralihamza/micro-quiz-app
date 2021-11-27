@@ -15,30 +15,6 @@ const theme = createTheme({
     },
 });
 
-type Question = {
-    category: string
-    type: string
-    difficulty: string
-    question: string
-    correct_answer: string
-    incorrect_answers: string[]
-    allAnswers?: string[]
-}
-type Questions = Question[]
-
-interface ContextType {
-    menu: string
-    difficulty: string
-    NoOfQuestions: number
-    questions: Questions
-    result: number | null
-    setMenu: (menu: string) => void
-    setDifficulty: (difficulty: string) => void
-    setNoOfQuestions: (NoOfQuestions: number) => void
-    setQuestions: (question: Questions) => void
-    setResult: (result: number) => void
-}
-
 const DummyQuestions: Questions = [
     {
         "category": "General Knowledge",
@@ -102,6 +78,38 @@ const DummyQuestions: Questions = [
     }
 ];
 
+
+type Question = {
+    category: string
+    type: string
+    difficulty: string
+    question: string
+    correct_answer: string
+    incorrect_answers: string[]
+    allAnswers?: string[]
+}
+type Questions = Question[]
+
+interface ContextType {
+    menu: string
+    difficulty: string
+    NoOfQuestions: number
+    questions: Questions
+    result: number | null
+    currentSelectedAnswer: string | null
+    activeStep: number
+    score: number
+    setMenu: (menu: string) => void
+    setDifficulty: (difficulty: string) => void
+    setNoOfQuestions: (NoOfQuestions: number) => void
+    setQuestions: (question: Questions) => void
+    setResult: (result: number) => void
+    setCurrentSelectedAnswer: (currentSelectedAnswer: string | null) => void
+    setActiveStep: (activeStep: number) => void
+    setScore: (score: number) => void
+}
+
+
 //shuffle the answers in the array:
 function shuffle(array: string[]): string[] {
     let currentIndex = array.length, randomIndex;
@@ -115,7 +123,7 @@ function shuffle(array: string[]): string[] {
 }
 
 function App() {
-    let allAnswersObj:any =[];
+    let allAnswersObj: any = [];
     for (let i = 0; i < DummyQuestions.length; i++) {
         let allAnswers: string[];
         allAnswers = DummyQuestions[i].incorrect_answers.map((answer: string) => answer);
@@ -123,7 +131,7 @@ function App() {
         allAnswers = shuffle(allAnswers);
         allAnswersObj.push(allAnswers);
     }
-    const newQuestions:Questions = DummyQuestions.map((question: Question, index: number) => {
+    const newQuestions: Questions = DummyQuestions.map((question: Question, index: number) => {
         return {...question, 'allAnswers': allAnswersObj[index]}
     });
 
@@ -132,6 +140,9 @@ function App() {
     const [NoOfQuestions, setNoOfQuestions] = React.useState<number>(5);
     const [questions, setQuestions] = useState<Questions>(newQuestions);
     const [result, setResult] = useState<number | null>(null);
+    const [currentSelectedAnswer, setCurrentSelectedAnswer] = useState<string | null>(null);
+    const [activeStep, setActiveStep] = React.useState<number>(0);
+    const [score, setScore] = useState<number>(0);
 
     const ContextValues: ContextType = {
         menu,
@@ -147,7 +158,16 @@ function App() {
         setQuestions,
 
         result,
-        setResult
+        setResult,
+
+        activeStep,
+        setActiveStep,
+
+        currentSelectedAnswer,
+        setCurrentSelectedAnswer,
+
+        score,
+        setScore
     }
 
     return (

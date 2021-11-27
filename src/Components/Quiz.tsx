@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext} from 'react';
 import {useTheme} from '@mui/material/styles';
 import MobileStepper from '@mui/material/MobileStepper';
 import Button from '@mui/material/Button';
@@ -13,22 +13,25 @@ import {Menu} from "../react-app-env.d";
 
 
 function Quiz() {
-    const [currentSelectedAnswer, setCurrentSelectedAnswer] = useState<string | null>(null);
-    const [activeStep, setActiveStep] = React.useState<number>(0);
-    const [score, setScore] = useState<number>(0);
-    const {questions, setResult, setMenu} = useContext(MyContext);
+    const {
+        questions, setResult, setMenu, activeStep,
+        setActiveStep, setCurrentSelectedAnswer, setScore,
+        currentSelectedAnswer, score
+    } = useContext(MyContext);
     const answers = questions[activeStep].allAnswers;
     const question_title: string = questions[activeStep].question;
     const theme = useTheme();
 
     const handleNext = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+        const nextStep: number= activeStep + 1;
+        setActiveStep(nextStep);
         setCurrentSelectedAnswer(null);
     };
 
     const handleReset = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep - 1);
         setScore(0);
+        setActiveStep(0)
+        setCurrentSelectedAnswer(null)
     };
 
     const handleSelectAnswer = (answer: string) => {
@@ -52,9 +55,11 @@ function Quiz() {
     return (
         <Box sx={{
             width: '100%', height: '100%',
-            background: `linear-gradient(#fdf8ef,rgba(0, 0, 0, 0.01)), url(${Background})`,
+            backgroundImage: `url(${Background})`,
             backgroundRepeat: 'no-repeat',
-            backgroundPosition: '50% -30%',
+            backgroundPosition: '50% -40%',
+            backgroundColor: '#fdf8ef',
+
         }}>
             <Box sx={{width: '100%'}}>
                 <MobileStepper
