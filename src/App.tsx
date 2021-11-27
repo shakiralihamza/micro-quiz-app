@@ -31,10 +31,12 @@ interface ContextType {
     difficulty: string
     NoOfQuestions: number
     questions: Questions
+    result: number | null
     setMenu: (menu: string) => void
     setDifficulty: (difficulty: string) => void
     setNoOfQuestions: (NoOfQuestions: number) => void
     setQuestions: (question: Questions) => void
+    setResult: (result: number) => void
 }
 
 const DummyQuestions: Questions = [
@@ -129,6 +131,7 @@ function App() {
     const [difficulty, setDifficulty] = useState<string>(Difficulty.Easy)
     const [NoOfQuestions, setNoOfQuestions] = React.useState<number>(5);
     const [questions, setQuestions] = useState<Questions>(newQuestions);
+    const [result, setResult] = useState<number | null>(null);
 
     const ContextValues: ContextType = {
         menu,
@@ -141,7 +144,10 @@ function App() {
         setNoOfQuestions,
 
         questions,
-        setQuestions
+        setQuestions,
+
+        result,
+        setResult
     }
 
     return (

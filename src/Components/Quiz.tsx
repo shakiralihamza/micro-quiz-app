@@ -8,12 +8,15 @@ import {Box, Grid, Paper, Typography} from "@mui/material";
 import '../index.css'
 import Background from "../picture.png";
 import {MyContext} from "../Context/MyContext";
+// noinspection ES6PreferShortImport
+import {Menu} from "../react-app-env.d";
 
 
 function Quiz() {
     const [currentSelectedAnswer, setCurrentSelectedAnswer] = useState<string | null>(null);
-    const [activeStep, setActiveStep] = React.useState(0);
-    const {questions} = useContext(MyContext);
+    const [activeStep, setActiveStep] = React.useState<number>(0);
+    const [score, setScore] = useState<number>(0);
+    const {questions, setResult, setMenu} = useContext(MyContext);
     const answers = questions[activeStep].allAnswers;
     const question_title: string = questions[activeStep].question;
     const theme = useTheme();
@@ -25,12 +28,25 @@ function Quiz() {
 
     const handleReset = () => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
+        setScore(0);
     };
 
     const handleSelectAnswer = (answer: string) => {
         if (!currentSelectedAnswer) {
             setCurrentSelectedAnswer(answer)
+            if (answer === questions[activeStep].correct_answer) {
+                const newScore: number = score + 1;
+                setScore(newScore)
+            }
         }
+    }
+
+    const handleFinish = () => {
+        setCurrentSelectedAnswer(null);
+        setActiveStep(0)
+        setResult(score);
+        setScore(0);
+        setMenu(Menu.Result)
     }
 
     return (
@@ -50,7 +66,7 @@ function Quiz() {
                     nextButton={
                         activeStep === questions.length - 1
                             ?
-                            <Button size="small" disabled={currentSelectedAnswer === null}>
+                            <Button size="small" onClick={handleFinish} disabled={currentSelectedAnswer === null}>
                                 View Results
                             </Button>
                             :
