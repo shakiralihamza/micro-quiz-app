@@ -1,8 +1,10 @@
 import Button from '@mui/material/Button';
 import {styled} from '@mui/material/styles';
-import {Box, Stack, Typography} from "@mui/material";
+import {Badge, Box, Stack, Typography} from "@mui/material";
 import React, {useContext} from "react";
 import {MyContext} from "../Context/MyContext";
+// noinspection ES6PreferShortImport
+import {Menu} from '../react-app-env.d';
 
 const TheButton = styled(Button)({
     boxShadow: 'none',
@@ -23,7 +25,7 @@ interface Props {
 }
 
 const MainButton: React.FC<Props> = ({icon, text}) => {
-    const {menu, setMenu} = useContext(MyContext);
+    const {menu, setMenu, quizStarted} = useContext(MyContext);
 
     const changeMenu = (menu: string) => setMenu(menu)
 
@@ -37,7 +39,9 @@ const MainButton: React.FC<Props> = ({icon, text}) => {
         >
             <Stack>
                 <Box sx={{height: 22}}>
-                    {icon}
+                    <Badge color={"success"} variant="dot" invisible={!((text === Menu.Quiz) && (quizStarted))}>
+                        {icon}
+                    </Badge>
                 </Box>
                 <Typography>
                     {text}

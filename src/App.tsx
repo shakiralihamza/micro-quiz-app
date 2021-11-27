@@ -11,6 +11,9 @@ const theme = createTheme({
     palette: {
         primary: {
             main: '#4203d5',
+        },
+        success: {
+            main: '#83ef29'
         }
     },
 });
@@ -99,6 +102,7 @@ interface ContextType {
     currentSelectedAnswer: string | null
     activeStep: number
     score: number
+    quizStarted: boolean
     setMenu: (menu: string) => void
     setDifficulty: (difficulty: string) => void
     setNoOfQuestions: (NoOfQuestions: number) => void
@@ -107,6 +111,7 @@ interface ContextType {
     setCurrentSelectedAnswer: (currentSelectedAnswer: string | null) => void
     setActiveStep: (activeStep: number) => void
     setScore: (score: number) => void
+    setQuizStarted: (quizStarted: boolean) => void
 }
 
 
@@ -143,6 +148,7 @@ function App() {
     const [currentSelectedAnswer, setCurrentSelectedAnswer] = useState<string | null>(null);
     const [activeStep, setActiveStep] = React.useState<number>(0);
     const [score, setScore] = useState<number>(0);
+    const [quizStarted, setQuizStarted] = useState<boolean>(false);
 
     const ContextValues: ContextType = {
         menu,
@@ -167,7 +173,10 @@ function App() {
         setCurrentSelectedAnswer,
 
         score,
-        setScore
+        setScore,
+
+        quizStarted,
+        setQuizStarted
     }
 
     return (

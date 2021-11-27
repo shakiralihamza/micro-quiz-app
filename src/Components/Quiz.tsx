@@ -16,7 +16,7 @@ function Quiz() {
     const {
         questions, setResult, setMenu, activeStep,
         setActiveStep, setCurrentSelectedAnswer, setScore,
-        currentSelectedAnswer, score
+        currentSelectedAnswer, score, setQuizStarted
     } = useContext(MyContext);
     const answers = questions[activeStep].allAnswers;
     const question_title: string = questions[activeStep].question;
@@ -32,10 +32,12 @@ function Quiz() {
         setScore(0);
         setActiveStep(0)
         setCurrentSelectedAnswer(null)
+        setQuizStarted(false);
     };
 
     const handleSelectAnswer = (answer: string) => {
         if (!currentSelectedAnswer) {
+            setQuizStarted(true);
             setCurrentSelectedAnswer(answer)
             if (answer === questions[activeStep].correct_answer) {
                 const newScore: number = score + 1;
@@ -50,6 +52,7 @@ function Quiz() {
         setResult(score);
         setScore(0);
         setMenu(Menu.Result)
+        setQuizStarted(false);
     }
 
     return (

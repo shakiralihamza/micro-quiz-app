@@ -4,7 +4,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import MainButton from "./MainButton";
 import QuizIcon from '@mui/icons-material/Quiz';
 // noinspection ES6PreferShortImport
-import { Menu } from '../react-app-env.d';
+import {Menu} from '../react-app-env.d';
 import FactCheckIcon from '@mui/icons-material/FactCheck';
 
 function LeftComponent() {
@@ -21,9 +21,9 @@ function LeftComponent() {
                     direction={'column'}
                     sx={{width: '100%', height: '100%'}}
                 >
-                   <MainButton icon={<SettingsIcon fontSize={'small'}/>} text={Menu.Settings}/>
-                   <MainButton icon={<QuizIcon fontSize={'small'}/>} text={Menu.Quiz}/>
-                   <MainButton icon={<FactCheckIcon fontSize={'small'}/>} text={Menu.Result}/>
+                    <MainButton icon={<SettingsIcon fontSize={'small'}/>} text={Menu.Settings}/>
+                    <MainButton icon={<QuizIcon fontSize={'small'}/>} text={Menu.Quiz}/>
+                    <MainButton icon={<FactCheckIcon fontSize={'small'}/>} text={Menu.Result}/>
                 </Stack>
             </Grid>
         </Grid>

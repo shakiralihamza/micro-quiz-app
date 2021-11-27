@@ -3,7 +3,7 @@ import {MyContext} from "../Context/MyContext";
 import {Box, Typography} from "@mui/material";
 
 function Result() {
-    const {result} = useContext(MyContext);
+    const {result, quizStarted} = useContext(MyContext);
     return (
         <Box sx={{
             width: '100%', height: '100%',
@@ -13,9 +13,13 @@ function Result() {
                 {
                     result == null
                         ?
-                        <>No result to show, please finish a quiz first.</>
+                        <>No result to show, please finish a quiz first</>
                         :
-                        <>Finished Quiz's Score: {result}</>
+                        quizStarted
+                            ?
+                            <>Please finish the quiz first</>
+                            :
+                            <>Last finished Quiz's Score: <span style={{color: '#71a943'}}>{result}</span></>
                 }
             </Typography>
         </Box>
