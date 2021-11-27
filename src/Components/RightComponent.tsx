@@ -4,6 +4,7 @@ import Settings from "./Settings";
 // noinspection ES6PreferShortImport
 import {Menu} from "../react-app-env.d";
 import Quiz from './Quiz';
+import Result from './Result';
 
 function RightComponent() {
     const {menu} = useContext(MyContext);
@@ -18,6 +19,12 @@ function RightComponent() {
             {
                 menu === Menu.Quiz ?
                     <Quiz/>
+                    :
+                    null
+            }
+            {
+                menu === Menu.Result ?
+                    <Result/>
                     :
                     null
             }

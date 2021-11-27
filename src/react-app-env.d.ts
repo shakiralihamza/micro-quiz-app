@@ -2,7 +2,8 @@
 
 export enum Menu {
     Settings = 'Settings',
-    Quiz = 'Quiz'
+    Quiz = 'Quiz',
+    Result = 'Result'
 }
 
 export enum Difficulty {
