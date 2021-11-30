@@ -7,6 +7,7 @@ import {Difficulty, Menu} from './react-app-env.d';
 import ContentComponent from "./Components/ContentComponent";
 import {createTheme} from '@mui/material/styles';
 import createResource from "./resource";
+import {useNavigatorOnline} from '@oieduardorabelo/use-navigator-online';
 
 const theme = createTheme({
     palette: {
@@ -19,7 +20,6 @@ const theme = createTheme({
     },
 });
 
-/*
 const DummyQuestions: Questions = [
     {
         "category": "General Knowledge",
@@ -82,7 +82,6 @@ const DummyQuestions: Questions = [
         ]
     }
 ];
-*/
 
 type Question = {
     category: string
@@ -137,7 +136,6 @@ interface MainAppPros {
 }
 
 const MainApp: React.FC<MainAppPros> = ({resource, difficulty, setDifficulty, NoOfQuestions, setNoOfQuestions}) => {
-    const data: Questions = resource.read().results;
     const [questions, setQuestions] = useState<Questions>(null);
     const [menu, setMenu] = useState<string>(Menu.Quiz);
     const [result, setResult] = useState<number | null>(null);
@@ -145,8 +143,14 @@ const MainApp: React.FC<MainAppPros> = ({resource, difficulty, setDifficulty, No
     const [activeStep, setActiveStep] = React.useState<number>(0);
     const [score, setScore] = useState<number>(0);
     const [quizStarted, setQuizStarted] = useState<boolean>(false);
-
     let allAnswersObj: any = [];
+
+    let data: Questions;
+    if (resource === null) {
+        data = DummyQuestions;
+    } else {
+        data = resource.read().results;
+    }
     let newQuestions: Questions;
     if (data !== null) {
         for (let i = 0; i < data.length; i++) {
@@ -161,7 +165,7 @@ const MainApp: React.FC<MainAppPros> = ({resource, difficulty, setDifficulty, No
         });
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         setQuestions(newQuestions)
         setResult(null);
         setActiveStep(0);
@@ -206,8 +210,8 @@ const MainApp: React.FC<MainAppPros> = ({resource, difficulty, setDifficulty, No
             <Grid container sx={{height: '100vh'}}>
                 <Grid item sx={{
                     backgroundImage: 'linear-gradient(to bottom, #4203d5, #5e02a9)',
-                    width: isSmallScreen?'100%':'130px',
-                    height: isSmallScreen?'100px':null
+                    width: isSmallScreen ? '100%' : '130px',
+                    height: isSmallScreen ? '100px' : null
                 }}>
                     <MainMenu/>
                 </Grid>
@@ -223,8 +227,13 @@ const MainApp: React.FC<MainAppPros> = ({resource, difficulty, setDifficulty, No
 function App() {
     const [NoOfQuestions, setNoOfQuestions] = React.useState<number>(5);
     const [difficulty, setDifficulty] = useState<string>(Difficulty.Easy)
-
-    const resource = createResource(NoOfQuestions, difficulty);
+    const {status} = useNavigatorOnline();
+    let resource: {} | null;
+    if (status === 'online') {
+        resource = createResource(NoOfQuestions, difficulty);
+    } else {
+        resource = null;
+    }
 
     const linearPreloader = () => (
         <Grid container sx={{width: '100%', height: '100vh'}} alignItems={'center'} justifyContent={'center'}>

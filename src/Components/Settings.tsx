@@ -1,4 +1,4 @@
-import {Box, Grid, SelectChangeEvent, Typography} from '@mui/material';
+import {Alert, Box, Grid, SelectChangeEvent, Typography} from '@mui/material';
 import Slider from '@mui/material/Slider';
 import React, {useContext} from 'react';
 import MenuItem from '@mui/material/MenuItem';
@@ -7,6 +7,7 @@ import Select from '@mui/material/Select';
 // noinspection ES6PreferShortImport
 import {Difficulty} from "../react-app-env.d";
 import {MyContext} from "../Context/MyContext";
+import {useNavigatorOnline} from '@oieduardorabelo/use-navigator-online';
 
 const marks = [
     {
@@ -27,8 +28,8 @@ const marks = [
     },
 ];
 
-
 function Settings() {
+    const {status} = useNavigatorOnline();
     const {difficulty, setDifficulty, NoOfQuestions, setNoOfQuestions} = useContext(MyContext);
 
     const handleSliderChange = (event: Event, newValue: number | number[]) => {
@@ -42,8 +43,19 @@ function Settings() {
         }}>
             <Grid container alignContent={'center'} justifyContent={'center'} sx={{height: '100%'}}>
                 <Grid item>
+
                     <Grid container spacing={3} sx={{padding: '20px 40px 0'}} alignItems={'center'}>
+
                         <Grid item xs={"auto"}>
+                            {
+                                status === 'offline'
+                                    ?
+                                    <Alert sx={{marginBottom: '30px'}} severity="warning">
+                                        You're offline, settings won't affect your quiz
+                                    </Alert>
+                                    :
+                                    null
+                            }
                             <Typography>Number of Questions:</Typography>
                         </Grid>
                         <Grid item xs={12} sx={{marginLeft: '20px'}}>
