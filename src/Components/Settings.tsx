@@ -40,7 +40,7 @@ function Settings() {
             width: '100%', height: '100%',
             backgroundColor: '#fdf8ef',
         }}>
-            <Grid container alignContent={'center'} sx={{height: '100%'}}>
+            <Grid container alignContent={'center'} justifyContent={'center'} sx={{height: '100%'}}>
                 <Grid item>
                     <Grid container spacing={3} sx={{padding: '20px 40px 0'}} alignItems={'center'}>
                         <Grid item xs={"auto"}>

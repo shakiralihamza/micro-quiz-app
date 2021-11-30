@@ -203,14 +203,15 @@ const MainApp: React.FC<MainAppPros> = ({resource, difficulty, setDifficulty, No
     const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
     return (
         <MyContext.Provider value={ContextValues}>
-            <Grid container sx={{height: isSmallScreen?null:'100vh'}}>
+            <Grid container sx={{height: '100vh'}}>
                 <Grid item sx={{
                     backgroundImage: 'linear-gradient(to bottom, #4203d5, #5e02a9)',
-                    width: isSmallScreen?'100%':'130px'
+                    width: isSmallScreen?'100%':'130px',
+                    height: isSmallScreen?'100px':null
                 }}>
                     <MainMenu/>
                 </Grid>
-                <Grid item xs>
+                <Grid item xs sx={{height: '100%'}}>
                     <ContentComponent/>
                 </Grid>
             </Grid>

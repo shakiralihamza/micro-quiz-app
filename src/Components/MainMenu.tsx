@@ -16,18 +16,13 @@ function MainMenu() {
             container
             justifyContent={'center'}
             alignContent={'center'}
-            sx={{width: '100%', height: '100%'}}
+            sx={{height: '100%'}}
         >
             <Grid item xs={12} sm={10}>
                 <Stack
                     spacing={isSmallScreen?0:6}
                     justifyContent={'space-evenly'}
                     direction={isSmallScreen?'row':'column'}
-                    sx={{
-                        width: '100%',
-                        height: '100%',
-                        margin: isSmallScreen?'10px 0':null
-                    }}
                 >
                     <MainButton icon={<SettingsIcon fontSize={'small'}/>} text={Menu.Settings}/>
                     <MainButton icon={<QuizIcon fontSize={'small'}/>} text={Menu.Quiz}/>
