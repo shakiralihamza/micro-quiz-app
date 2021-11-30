@@ -6,7 +6,7 @@ import {Menu} from "../react-app-env.d";
 import Quiz from './Quiz';
 import Result from './Result';
 
-const RightComponent = () => {
+const ContentComponent = () => {
     const {menu} = useContext(MyContext);
 
     return (
@@ -33,4 +33,4 @@ const RightComponent = () => {
     );
 }
 
-export default RightComponent;
+export default ContentComponent;

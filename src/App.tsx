@@ -1,10 +1,10 @@
 import React, {Suspense, useEffect, useState} from 'react';
-import LeftComponent from "./Components/LeftComponent";
-import {CircularProgress, Grid, ThemeProvider} from "@mui/material";
+import MainMenu from "./Components/MainMenu";
+import {CircularProgress, Grid, ThemeProvider, useMediaQuery} from "@mui/material";
 import {MyContext} from "./Context/MyContext";
 // noinspection ES6PreferShortImport
 import {Difficulty, Menu} from './react-app-env.d';
-import RightComponent from "./Components/RightComponent";
+import ContentComponent from "./Components/ContentComponent";
 import {createTheme} from '@mui/material/styles';
 import createResource from "./resource";
 
@@ -199,18 +199,19 @@ const MainApp: React.FC<MainAppPros> = ({resource, difficulty, setDifficulty, No
         quizStarted,
         setQuizStarted
     }
-
+    // @ts-ignore
+    const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
     return (
         <MyContext.Provider value={ContextValues}>
-            <Grid container sx={{height: '100vh'}}>
+            <Grid container sx={{height: isSmallScreen?null:'100vh'}}>
                 <Grid item sx={{
                     backgroundImage: 'linear-gradient(to bottom, #4203d5, #5e02a9)',
-                    width: '130px'
+                    width: isSmallScreen?'100%':'130px'
                 }}>
-                    <LeftComponent/>
+                    <MainMenu/>
                 </Grid>
                 <Grid item xs>
-                    <RightComponent/>
+                    <ContentComponent/>
                 </Grid>
             </Grid>
         </MyContext.Provider>

@@ -1,6 +1,6 @@
 import Button from '@mui/material/Button';
 import {styled} from '@mui/material/styles';
-import {Badge, Box, Stack, Typography} from "@mui/material";
+import {Badge, Box, Stack, Typography, useMediaQuery} from "@mui/material";
 import React, {useContext} from "react";
 import {MyContext} from "../Context/MyContext";
 // noinspection ES6PreferShortImport
@@ -29,11 +29,15 @@ const MainButton: React.FC<Props> = ({icon, text}) => {
 
     const changeMenu = (menu: string) => setMenu(menu)
 
+    // @ts-ignore
+    const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
+
     return (
         <TheButton
             disableRipple
             sx={{
-                backgroundColor: menu === text ? '#844ed2' : ''
+                backgroundColor: menu === text ? '#844ed2' : '',
+                width: isSmallScreen?'100px':null,
             }}
             onClick={() => changeMenu(text)}
         >
