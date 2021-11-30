@@ -13,9 +13,7 @@ import { ExpirationPlugin } from 'workbox-expiration';
 import { precacheAndRoute, createHandlerBoundToURL } from 'workbox-precaching';
 import { registerRoute } from 'workbox-routing';
 import { StaleWhileRevalidate } from 'workbox-strategies';
-import {CacheFirst} from 'workbox-strategies';
 
-import {CacheableResponsePlugin} from 'workbox-cacheable-response';
 
 declare const self: ServiceWorkerGlobalScope;
 
@@ -70,17 +68,6 @@ registerRoute(
       new ExpirationPlugin({ maxEntries: 50 }),
     ],
   })
-);
-
-registerRoute(
-    'https://opentdb.com/api.php?amount=5&difficulty=easy&type=multiple',
-    new CacheFirst({
-        plugins: [
-            new CacheableResponsePlugin({
-                statuses: [0, 200]
-            })
-        ]
-    }),
 );
 
 // This allows the web app to trigger skipWaiting via
