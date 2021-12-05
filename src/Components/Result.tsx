@@ -21,7 +21,7 @@ function Result() {
                                     ?
                                     <>Please finish the quiz first</>
                                     :
-                                    <>Last finished Quiz's Score: <span style={{color: '#71a943'}}>{result}</span></>
+                                    <>Last finished Quiz's Score:<span style={{color: '#71a943'}}> {result}</span></>
                         }
                     </Typography>
                 </Grid>
