@@ -16,7 +16,7 @@ function Quiz() {
     const {
         questions, setResult, setMenu, activeStep,
         setActiveStep, setCurrentSelectedAnswer, setScore,
-        currentSelectedAnswer, score, setQuizStarted,
+        currentSelectedAnswer, score, setQuizStarted, quizStarted
     } = useContext(MyContext);
 /*
     const [data, setData] = useState(true);
@@ -98,7 +98,8 @@ function Quiz() {
                                 </Button>
                         }
                         backButton={
-                            <Button size="small" onClick={handleReset} disabled={activeStep === 0}>
+                            // <Button size="small" onClick={handleReset} disabled={activeStep === 0}>
+                            <Button size="small" onClick={handleReset} disabled={!quizStarted}>
                                 Reset
                             </Button>
                         }
