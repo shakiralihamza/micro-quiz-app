@@ -1,6 +1,6 @@
 import {Alert, Box, Grid, SelectChangeEvent, Typography} from '@mui/material';
 import Slider from '@mui/material/Slider';
-import React, {useContext} from 'react';
+import {useContext} from 'react';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
@@ -32,10 +32,9 @@ function Settings() {
     const {status} = useNavigatorOnline();
     const {difficulty, setDifficulty, NoOfQuestions, setNoOfQuestions} = useContext(MyContext);
 
-    const handleSliderChange = (event: Event, newValue: number | number[]) => {
-        setNoOfQuestions(newValue);
-    };
+    const handleSliderChange = (event: Event, newValue: number | number[]) => setNoOfQuestions(newValue);
     const handleDifficultyChange = (event: SelectChangeEvent) => setDifficulty(event.target.value as string)
+
     return (
         <Box sx={{
             width: '100%', height: '100%',
@@ -48,13 +47,11 @@ function Settings() {
 
                         <Grid item xs={"auto"}>
                             {
-                                status === 'offline'
-                                    ?
+                                status === 'offline' && (
                                     <Alert sx={{marginBottom: '30px'}} severity="warning">
                                         You're offline, settings won't affect your quiz
                                     </Alert>
-                                    :
-                                    null
+                                )
                             }
                             <Typography>Number of Questions:</Typography>
                         </Grid>
@@ -62,6 +59,7 @@ function Settings() {
                             <Box>
                                 <Slider
                                     value={NoOfQuestions}
+                                    disabled={status === 'offline'}
                                     min={5}
                                     max={20}
                                     step={null}
@@ -78,6 +76,7 @@ function Settings() {
                         <Grid item xs={12} sx={{marginLeft: '20px'}}>
                             <FormControl fullWidth>
                                 <Select
+                                    disabled={status === 'offline'}
                                     value={difficulty}
                                     onChange={handleDifficultyChange}
                                 >

@@ -1,15 +1,14 @@
 import {Grid, Stack, useMediaQuery} from '@mui/material';
-import React from 'react';
 import SettingsIcon from '@mui/icons-material/Settings';
 import MainButton from "./MainButton";
 import QuizIcon from '@mui/icons-material/Quiz';
 // noinspection ES6PreferShortImport
 import {Menu} from '../react-app-env.d';
 import FactCheckIcon from '@mui/icons-material/FactCheck';
+import {Theme} from "@mui/material/styles";
 
 function MainMenu() {
-    // @ts-ignore
-    const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
+    const isSmallScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
     return (
         <Grid

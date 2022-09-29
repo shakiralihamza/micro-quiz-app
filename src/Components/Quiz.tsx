@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import {useContext} from 'react';
 import {useTheme} from '@mui/material/styles';
 import MobileStepper from '@mui/material/MobileStepper';
 import Button from '@mui/material/Button';
@@ -6,7 +6,7 @@ import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import {Box, Grid, Paper, Typography} from "@mui/material";
 import '../index.css'
-import Background from "../picture.png";
+import Background from "../assets/picture.png";
 import {MyContext} from "../Context/MyContext";
 // noinspection ES6PreferShortImport
 import {Menu} from "../react-app-env.d";
@@ -18,13 +18,8 @@ function Quiz() {
         setActiveStep, setCurrentSelectedAnswer, setScore,
         currentSelectedAnswer, score, setQuizStarted, quizStarted
     } = useContext(MyContext);
-/*
-    const [data, setData] = useState(true);
-    useEffect(()=>{
-        setData(!data)
-    }, [data, questions, NoOfQuestions, difficulty])*/
-    const theme = useTheme();
 
+    const theme = useTheme();
 
     if (questions !== null) {
         let answers, question_title: string;
@@ -72,7 +67,6 @@ function Quiz() {
                 backgroundRepeat: 'no-repeat',
                 backgroundPosition: '50% -40%',
                 backgroundColor: '#fdf8ef',
-
             }}>
                 <Box sx={{width: '100%'}}>
                     <MobileStepper
@@ -98,7 +92,6 @@ function Quiz() {
                                 </Button>
                         }
                         backButton={
-                            // <Button size="small" onClick={handleReset} disabled={activeStep === 0}>
                             <Button size="small" onClick={handleReset} disabled={!quizStarted}>
                                 Reset
                             </Button>
@@ -131,7 +124,6 @@ function Quiz() {
                                                         ? '#e03737'
                                                         : null
                                             ),
-                                            // backgroundColor: currentSelectedAnswer === answer ? '#fff7ab' : '',
                                             '&: hover': {
                                                 backgroundColor: currentSelectedAnswer ? '' : '#fff7ab',
                                                 cursor: currentSelectedAnswer ? 'default' : 'pointer'

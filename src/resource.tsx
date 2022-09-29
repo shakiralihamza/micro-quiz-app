@@ -1,6 +1,5 @@
 async function fetchData(noOfQuestions: number, difficulty: string) {
     const url: string = `https://opentdb.com/api.php?amount=${noOfQuestions}&difficulty=${difficulty.toLowerCase()}&type=multiple`
-    // const url: string = `https://opentdb.com/api.php?amount=5&difficulty=easy&type=multiple`
     const response = await fetch(url);
     return await response.json()
 }

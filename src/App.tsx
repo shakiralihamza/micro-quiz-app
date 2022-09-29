@@ -5,9 +5,10 @@ import {MyContext} from "./Context/MyContext";
 // noinspection ES6PreferShortImport
 import {Difficulty, Menu} from './react-app-env.d';
 import ContentComponent from "./Components/ContentComponent";
-import {createTheme} from '@mui/material/styles';
+import {createTheme, Theme} from '@mui/material/styles';
 import createResource from "./resource";
 import {useNavigatorOnline} from '@oieduardorabelo/use-navigator-online';
+import {DummyQuestions} from "./assets/DummyQuestions";
 
 const theme = createTheme({
     palette: {
@@ -19,69 +20,6 @@ const theme = createTheme({
         }
     },
 });
-
-const DummyQuestions: Questions = [
-    {
-        "category": "General Knowledge",
-        "type": "multiple",
-        "difficulty": "easy",
-        "question": "Which company did Valve cooperate with in the creation of the Vive?",
-        "correct_answer": "HTC",
-        "incorrect_answers": [
-            "Oculus",
-            "Google",
-            "Razer"
-        ]
-    },
-    {
-        "category": "General Knowledge",
-        "type": "multiple",
-        "difficulty": "easy",
-        "question": "What is the shape of the toy invented by Hungarian professor Ernő Rubik?",
-        "correct_answer": "Cube",
-        "incorrect_answers": [
-            "Sphere",
-            "Cylinder",
-            "Pyramid"
-        ]
-    },
-    {
-        "category": "General Knowledge",
-        "type": "multiple",
-        "difficulty": "easy",
-        "question": "Which one of the following rhythm games was made by Harmonix?",
-        "correct_answer": "Rock Band",
-        "incorrect_answers": [
-            "Meat Beat Mania",
-            "Guitar Hero Live",
-            "Dance Dance Revolution"
-        ]
-    },
-    {
-        "category": "General Knowledge",
-        "type": "multiple",
-        "difficulty": "easy",
-        "question": "What is the French word for &quot;fish&quot;?",
-        "correct_answer": "poisson",
-        "incorrect_answers": [
-            "fiche",
-            "escargot",
-            "mer"
-        ]
-    },
-    {
-        "category": "General Knowledge",
-        "type": "multiple",
-        "difficulty": "easy",
-        "question": "Who invented the first ever chocolate bar, in 1847?",
-        "correct_answer": "Joseph Fry",
-        "incorrect_answers": [
-            "Andrew Johnson",
-            "John Cadbury",
-            "John Tyler"
-        ]
-    }
-];
 
 type Question = {
     category: string
@@ -127,7 +65,7 @@ function shuffle(array: string[]): string[] {
     return array;
 }
 
-interface MainAppPros {
+interface MainAppProps {
     resource: any
     NoOfQuestions: number
     difficulty: string
@@ -135,7 +73,7 @@ interface MainAppPros {
     setDifficulty: (difficulty: string) => void
 }
 
-const MainApp: React.FC<MainAppPros> = ({resource, difficulty, setDifficulty, NoOfQuestions, setNoOfQuestions}) => {
+const MainApp: React.FC<MainAppProps> = ({resource, difficulty, setDifficulty, NoOfQuestions, setNoOfQuestions}) => {
     const [questions, setQuestions] = useState<Questions>(null);
     const [menu, setMenu] = useState<string>(Menu.Quiz);
     const [result, setResult] = useState<number | null>(null);
@@ -203,8 +141,7 @@ const MainApp: React.FC<MainAppPros> = ({resource, difficulty, setDifficulty, No
         quizStarted,
         setQuizStarted
     }
-    // @ts-ignore
-    const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
+    const isSmallScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
     return (
         <MyContext.Provider value={ContextValues}>
             <Grid container sx={{height: '100vh'}}>
@@ -235,7 +172,7 @@ function App() {
         resource = null;
     }
 
-    const linearPreloader = () => (
+    const preloader = () => (
         <Grid container sx={{width: '100%', height: '100vh'}} alignItems={'center'} justifyContent={'center'}>
             <Grid item>
                 <CircularProgress/>
@@ -244,7 +181,7 @@ function App() {
     );
     return (
         <ThemeProvider theme={theme}>
-            <Suspense fallback={linearPreloader()}>
+            <Suspense fallback={preloader()}>
                 <MainApp
                     resource={resource}
                     NoOfQuestions={NoOfQuestions}

@@ -1,5 +1,5 @@
 import Button from '@mui/material/Button';
-import {styled} from '@mui/material/styles';
+import {styled, Theme} from '@mui/material/styles';
 import {Badge, Box, Stack, Typography, useMediaQuery} from "@mui/material";
 import React, {useContext} from "react";
 import {MyContext} from "../Context/MyContext";
@@ -29,8 +29,7 @@ const MainButton: React.FC<Props> = ({icon, text}) => {
 
     const changeMenu = (menu: string) => setMenu(menu)
 
-    // @ts-ignore
-    const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down('sm'));
+    const isSmallScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
     return (
         <TheButton

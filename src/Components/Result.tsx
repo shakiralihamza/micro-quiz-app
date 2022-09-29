@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import {useContext} from 'react';
 import {MyContext} from "../Context/MyContext";
 import {Box, Grid, Typography} from "@mui/material";
 
@@ -11,7 +11,7 @@ function Result() {
         }}>
             <Grid container justifyContent={'center'} alignItems={'center'} sx={{height: '100%'}}>
                 <Grid item xs={8} sm={10} md={'auto'}>
-                    <Typography variant={"h4"} sx={{lineHeight: '1.5'}}>
+                    <Typography variant={"h5"} sx={{lineHeight: '1.3', fontWeight:'100'}}>
                         {
                             result == null
                                 ?

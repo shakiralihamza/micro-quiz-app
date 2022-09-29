@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import {useContext} from 'react';
 import {MyContext} from "../Context/MyContext";
 import Settings from "./Settings";
 // noinspection ES6PreferShortImport
@@ -11,24 +11,11 @@ const ContentComponent = () => {
 
     return (
         <>
-            {
-                menu === Menu.Settings ?
-                    <Settings/>
-                    :
-                    null
-            }
-            {
-                menu === Menu.Quiz ?
-                    <Quiz/>
-                    :
-                    null
-            }
-            {
-                menu === Menu.Result ?
-                    <Result/>
-                    :
-                    null
-            }
+            {menu === Menu.Settings && <Settings/>}
+
+            {menu === Menu.Quiz && <Quiz/>}
+
+            {menu === Menu.Result && <Result/>}
         </>
     );
 }
