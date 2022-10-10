@@ -49,11 +49,13 @@ function Settings() {
                             {
                                 status === 'offline' && (
                                     <Alert sx={{marginBottom: '30px'}} severity="warning">
-                                        You're offline, settings won't affect your quiz
+                                        You are offline.
                                     </Alert>
                                 )
                             }
-                            <Typography>Number of Questions:</Typography>
+                            <Typography sx={{...((status === 'offline') && {color: 'text.disabled'})}}>
+                                Number of Questions:
+                            </Typography>
                         </Grid>
                         <Grid item xs={12} sx={{marginLeft: '20px'}}>
                             <Box>
@@ -71,7 +73,9 @@ function Settings() {
                         </Grid>
                         <Grid item xs={12}/>
                         <Grid item xs={"auto"}>
-                            <Typography>Difficulty:</Typography>
+                            <Typography sx={{...((status === 'offline') && {color: 'text.disabled'})}}>
+                                Difficulty:
+                            </Typography>
                         </Grid>
                         <Grid item xs={12} sx={{marginLeft: '20px'}}>
                             <FormControl fullWidth>
